@@ -25,7 +25,7 @@ jobs:
       - name: Ensure readmes directory exists
         run: mkdir -p readmes
       - name: Generate stubs
-        run: gh-all-repos list PythonCoderAS --no-private | while read repo; do [ ! -f "readmes/$repo" ] && cp /config/empty-file.md "readmes/$repo"; done
+        run: gh-all-repos list PythonCoderAS --no-private | while read repo; do [ ! -f "readmes/$repo" ] && cp ./config/empty-file.md "readmes/$repo"; done
       - name: Commit and push
         run: |
           git add readmes
