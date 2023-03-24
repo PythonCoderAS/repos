@@ -65,7 +65,11 @@ fi
 REPO_TYPE="$(trim "$REPO_TYPE")"
 [ ! -z "$REPO_TYPE" ] && REPO_TYPE_LINE="Type: $REPO_TYPE"
 [ ! -z "$HOMEPAGE_URL" ] && HOMEPAGE_URL_LINE="Homepage: [$HOMEPAGE_URL]($HOMEPAGE_URL)"
-[ ! -z "$EDIT_URL" ] && EDIT_URL_LINE="<small>[Edit Here]($EDIT_URL)</small>"
+[ ! -z "$EDIT_URL" ] && EDIT_URL_LINE="<small>
+
+[Edit Here]($EDIT_URL)
+
+</small>"
 [ ! -z "$HAS_GH_PAGES" ] && GH_PAGES_LINE="GitHub Pages Site: https://$OWNER.github.io/$REPO/"
 
 mkdir -p "generated"

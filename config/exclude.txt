@@ -1,0 +1,6 @@
+# Exclude file. All repos in this file will *not* be included.
+# All lines starting with # are comments and will not count.
+# Alternatively, mark the repo as private.
+
+PythonCoderAS
+pythoncoderas.github.io
