@@ -13,7 +13,7 @@ function errorfunc(){
 }
 trap 'errorfunc "$?" "${last_command}"' ERR
 
-OWNER="PythonCoderAS"
+OWNER="pythoncoderas"
 REPO="$1"
 
 if [ -z "$REPO" ]; then
@@ -109,7 +109,9 @@ cat -s > "generated/$REPO.md" << EOF
 $REPO_DESCRIPTION
 
 $REPO_TYPE_LINE
+
 $HOMEPAGE_URL_LINE
+
 $GH_PAGES_LINE
 
 ----
