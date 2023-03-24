@@ -2,5 +2,7 @@
 # All lines starting with # are comments and will not count.
 # Alternatively, mark the repo as private.
 
-PythonCoderAS
+# NOTE: File is *case-sensitive*
+
+pythoncoderas
 pythoncoderas.github.io
