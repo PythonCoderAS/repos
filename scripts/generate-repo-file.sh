@@ -122,3 +122,5 @@ $REPO_README
 
 $EDIT_URL_LINE
 EOF
+
+exit 0
