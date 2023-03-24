@@ -86,13 +86,13 @@ if [ "$IS_STUB_FILE" ]; then
 fi
 
 REPO_TYPE=""
-if [ "$IS_ARCHIVED" ]; then
+if [ "$IS_ARCHIVED" != "0" ]; then
     REPO_TYPE="Archived "
 fi
-if [ "$IS_FORK" ]; then
+if [ "$IS_FORK" != "0" ]; then
     REPO_TYPE="$REPO_TYPE Fork"
 fi
-if [ "$IS_TEMPLATE" ]; then
+if [ "$IS_TEMPLATE" != "0" ]; then
     REPO_TYPE="$REPO_TYPE Template"
 fi
 REPO_TYPE="$(trim "$REPO_TYPE")"
