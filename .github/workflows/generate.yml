@@ -54,6 +54,8 @@ jobs:
         run: npm install -g gh-all-repos
       - name: Generate readme files
         run: scripts/get-repo-list.sh | while read repo; do scripts/generate-repo-file.sh $repo; done
+        env:
+          GH_TOKEN: ${{ github.token }}
       - name: Generate index file
         run: scripts/generate-homepage.mjs
       - name: Setup Pages
