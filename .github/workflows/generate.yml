@@ -58,6 +58,8 @@ jobs:
           GH_TOKEN: ${{ github.token }}
       - name: Generate index file
         run: scripts/generate-homepage.mjs
+      - name: Copy config
+        run: cp config/_config.yml generated/_config.yml
       - name: Setup Pages
         uses: actions/configure-pages@v3
       - name: Build with Jekyll
