@@ -11,7 +11,7 @@ function errorfunc(){
     local last_command="$2"
     [ "$error_code" != "0" ] && echo "\"${last_command}\" command filed with exit code $error_code."
 }
-trap 'errorfunc "$?" "${last_command}"' EXIT
+trap 'errorfunc "$?" "${last_command}"' ERR
 
 # GH ACTIONS WHY?
 
