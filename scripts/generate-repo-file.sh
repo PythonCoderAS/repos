@@ -6,7 +6,12 @@ set -e
 # keep track of the last executed command
 trap 'last_command=$current_command; current_command=$BASH_COMMAND' DEBUG
 # echo an error message before exiting
-trap '[ "$?" != "0" ] && echo "\"${last_command}\" command filed with exit code $?."' EXIT
+function errorfunc(){
+    local error_code="$1"
+    local last_command="$2"
+    [ "$error_code" != "0" ] && echo "\"${last_command}\" command filed with exit code $error_code."
+}
+trap 'errorfunc "$?" "${last_command}"' EXIT
 
 OWNER="PythonCoderAS"
 REPO="$1"
@@ -28,36 +33,56 @@ trim() {
 REPO_DATA="$(gh repo view $OWNER/$REPO --json isFork,isArchived,isTemplate,homepageUrl,description,name,defaultBranchRef)"
 mkdir -p cache
 echo "$REPO_DATA" > "cache/$REPO.json"
-IS_FORK=[[ "$(echo "$REPO_DATA" | jq -r '.isFork')" == "true" ]]
-IS_ARCHIVED=[[ "$(echo "$REPO_DATA" | jq -r '.isArchived')" == "true" ]]
-IS_TEMPLATE=[[ "$(echo "$REPO_DATA" | jq -r '.isTemplate')" == "true" ]]
+FORK_DATA="$(echo "$REPO_DATA" | jq -r '.isFork')"
+if [[ "$FORK_DATA" == "true" ]]; then
+    IS_FORK=1
+else
+    IS_FORK=0
+fi
+ARCHIVE_DATA="$(echo "$REPO_DATA" | jq -r '.isArchived')"
+if [[ "$ARCHIVE_DATA" == "true" ]]; then
+    IS_ARCHIVED=1
+else
+    IS_ARCHIVED=0
+fi
+TEMPLATE_DATA="$(echo "$REPO_DATA" | jq -r '.isTemplate')"
+if [[ "$TEMPLATE_DATA" == "true" ]]; then
+    IS_TEMPLATE=1
+else
+    IS_TEMPLATE=0
+fi
 REPO_DESCRIPTION="$(echo "$REPO_DATA" | jq -r '.description')"
 DEFAULT_BRANCH="$(echo "$REPO_DATA" | jq -r '.defaultBranchRef.name')"
 HOMEPAGE_URL="$(echo "$REPO_DATA" | jq -r '.homepageUrl')"
 
+set +e
 cmp -s "config/empty-file.md" "readmes/$REPO.md" > /dev/null 2>&1
 if [ $? -ne 0 ]; then
     IS_STUB_FILE=0
 else 
     IS_STUB_FILE=1
 fi
+set -e
 REPO_README="$(cat "readmes/$REPO.md")"
 EDIT_URL="https://github.com/$OWNER/repos/edit/main/readmes/$REPO.md"
 
+set +e
 curl -L -s --fail "https://$OWNER.github.io/$REPO/" > /dev/null
 if [ $? -eq 0 ]; then
     HAS_GH_PAGES=1
 else
     HAS_GH_PAGES=0
 fi
-
+set -e
 if [ "$IS_STUB_FILE" ]; then
+    set +e
     REPO_README="$(curl -L -s --fail "https://raw.githubusercontent.com/$OWNER/$REPO/$DEFAULT_BRANCH/README.md")"
     EDIT_URL="https://github.com/$OWNER/$REPO/edit/$DEFAULT_BRANCH/README.md"
     if [ $? -ne 0 ]; then
         REPO_README="$REPO_DESCRIPTION"
         EDIT_URL=""
     fi
+    set -e
 fi
 
 REPO_TYPE=""
