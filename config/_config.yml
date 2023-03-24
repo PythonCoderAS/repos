@@ -3,4 +3,4 @@ author: PythonCoderAS
 url: https://pythoncoderas.github.io/repos # root address of the site
 description: > # description of the site (multiple lines allowed)
   A nice display of my repos
-theme: jekyll-theme-tactile
+theme: tactile
