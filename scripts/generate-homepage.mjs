@@ -34,6 +34,9 @@ for (const file of files) {
     }
 }
 
+all.sort((a, b) => a.name.localeCompare(b.name));
+archived.sort((a, b) => a.name.localeCompare(b.name));
+
 let outputMarkdown = "# My Repositories\n\n";
 
 outputMarkdown += all.map(repo => `### [${repo.name}](./${repo.name}.md)\n${repo.description}`).join("\n\n")
